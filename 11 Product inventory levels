@@ -1,0 +1,40 @@
+# Sample data (replace with your actual inventory data)
+product_names <- c("Product X", "Product Y", "Product Z", "Product W")
+warehouse_A <- c(200, 150, 300, 100)
+warehouse_B <- c(150, 100, 250, 150)
+warehouse_C <- c(100, 50, 200, 20)  # NA indicates missing data for Product W in Warehouse C
+
+# Create a data frame
+inventory_df <- data.frame(Product = product_names,
+                           A = warehouse_A,
+                           B = warehouse_B,
+                           C = warehouse_C)
+
+# Line plot (time series)
+plot(inventory_df$A, type = "l", col = "blue", xlab = "Time", ylab = "Inventory",
+     main = "Product X Inventory in Warehouse A")
+
+# Bar plot (categorical comparison)
+barplot(t(inventory_df[, 2:4]), beside = TRUE, col = c("red", "green", "blue"),
+        names.arg = product_names, legend.text = colnames(inventory_df)[2:4],
+        main = "Inventory Levels by Product and Warehouse")
+
+# Box plot (distribution)
+boxplot(inventory_df[, 2:4], col = c("red", "green", "blue"),
+        names = product_names, main = "Inventory Distribution by Product")
+
+
+# Load required library
+library(ggplot2)
+
+# Create a data frame with the provided data
+data <- data.frame(Product = rep(product_names, each = 3),
+                   Warehouse = rep(c("A", "B", "C"), times = 4),
+                   Quantity = c(warehouse_A, warehouse_B, warehouse_C))
+
+# Plotting the box plot
+ggplot(data, aes(x = Warehouse, y = Quantity, fill = Warehouse)) +
+  geom_boxplot() +
+  labs(title = "Quantity Distribution by Product and Warehouse",
+       x = "Product", y = "Quantity") +
+  scale_fill_manual(values = c("blue", "green", "red"))
